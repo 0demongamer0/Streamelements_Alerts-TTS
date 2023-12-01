@@ -15,8 +15,8 @@ A simple TTS script for StreamElements Alerts
 
   - Download the repository.
   - Extract it somewhere in your file system.
-  - Open the config.js with a text editor.
-  - Edit the variables in the script.
+  - Open the config.js.new with a text editor.
+  - Edit the variables in the script, then rename config.js.new to config.js .
   - Double click on the .html file and copy the URL from your browser.
   - Add the URL in your OBS as a Browsersource. (If you can't hear TTS, turn off "Control Audio via OBS".)
 

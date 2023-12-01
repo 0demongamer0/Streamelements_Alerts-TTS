@@ -1,0 +1,54 @@
+//THIS IS A CONFIG TEMPLATE, CHANGE RENAME TO config.js AFTER CONFIGURATION!!!
+
+// ELEVENLABS PARAMETERS https://beta.elevenlabs.io/
+const apiKey = "XXXXXXXXX"; // your elevenlabs api key
+///////////////////////////////////////////////////
+
+
+// TWITCH PARAMETERS
+// const channelId = "12345678"; // your twitch channel id
+
+/////////////////////////
+// Streamelements Configs
+// AccessToken is grabbed from OAuth2 authentication of the account.
+const accessToken = "";
+// JWT is available here: https://streamelements.com/dashboard/account/channels
+const jwt = "";
+////////////////////////
+
+// Voices configs
+////////////////////////
+const tts_voices = {
+    "Babka (AI TTS)": {
+        ttsCharacterLimit: 300, // max characters to send
+        type: "elevenlabs", // elevenlabs or streamelements
+        voiceId: "XXXXXXXXXXX", // elevenlabs voice id
+        volume: 1, // volume 0.0 - 1.0
+        stability: 0.3, // elevenlabs stability 0.0 - 1.0
+        style: 0.5, // elevenlabs values
+        useSpeakerBoost: false, // elevenlabs values
+        modelId: "eleven_multilingual_v1",  // elevenlabs values. Use eleven_monolingual_v1 for english only and eleven_multilingual_v1 for other languages
+        similarityBoost: 0.8, // elevenlabs similarityBoost 0.0 - 1.0
+        alert_type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
+        //alert_type: ["fan", "follower", "share", "stars", "supporter", "videolike", ] // facebook events
+        //alert_type: ["sponsor", "subscriber", "superchat"] // youtube events
+    },
+    "Jan (Normal TTS)": {
+        ttsCharacterLimit: 500, // max characters to send
+        type: "streamelements", // streamelements or elevenlabs
+        voiceId: "Jan", // streamelements voice id
+        volume: 0.35, // volume 0.0 - 1.0
+        alert_type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
+        //alert_type: ["fan", "follower", "share", "stars", "supporter", "videolike", ] // facebook events
+        //alert_type: ["sponsor", "subscriber", "superchat"] // youtube events
+    },
+};
+////////////////////////
+
+
+// -----------------
+// DEBUG PARAMETERS
+// -----------------
+const testTTSOnLoad = false; // debug mode to test. true = F5 to play text false = nothing. Leave this on false if you dont plan to change the code.
+const testTTS = "Brian (Normal TTS)"; // reward name to test
+const testText = "Hello world"; // text to test
