@@ -1,12 +1,12 @@
-# ChannelPoints-TTS
-A simple TTS rewards script for Twitch channel points
+# StreamElements_Alerts-TTS
+A simple TTS script for StreamElements Alerts
 
 ## Features
 
 - Elevenlabs TTS Support for Custom TTS Voices
-- Streamelements TTS Support for default Brian and other voices
+- Streamelements TTS Support for default Jan and other voices
 - Volume control per Reward
-- Multiple rewards support
+- Multiple events support
 - Easy to setup
 
 
@@ -15,8 +15,8 @@ A simple TTS rewards script for Twitch channel points
 
   - Download the repository.
   - Extract it somewhere in your file system.
-  - Open the index.js with a text editor.
-  - Edit the variables on top of the script.
+  - Open the config.js with a text editor.
+  - Edit the variables in the script.
   - Double click on the .html file and copy the URL from your browser.
   - Add the URL in your OBS as a Browsersource. (If you can't hear TTS, turn off "Control Audio via OBS".)
 
@@ -25,6 +25,5 @@ A simple TTS rewards script for Twitch channel points
 
 ## Acknowledgements
 
- - [33kk Twitch Points Overlay Script](https://github.com/33kk/twitch-points-overlay)
  - [Streamelements TTS](https://streamelements.com/)
  - [Eleven Labs TTS](https://beta.elevenlabs.io/)
