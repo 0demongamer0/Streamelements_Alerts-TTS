@@ -1,127 +1,139 @@
 function sleep(miliseconds) {
-    return new Promise((res) => setTimeout(res, miliseconds));
+  return new Promise((res) => setTimeout(res, miliseconds));
 }
 
 function searchWords(text, wordsToSearch) {
-    // Split the text into an array of words
-    const wordsInText = text.split(/\s+/);
-  
-    // Create an object to store the occurrences of each word
-    const wordOccurrences = {};
-  
-    // Iterate through the words in the text
-    wordsInText.forEach(word => {
-      // Check if the current word is in the list of words to search
-      if (wordsToSearch.includes(word)) {
-        // Increment the occurrence count for the word
-        wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
-      }
-    });
-  
-    return wordOccurrences;
+  // Split the text into an array of words
+  const wordsInText = text.split(/\s+/);
+
+  // Create an object to store the occurrences of each word
+  const wordOccurrences = {};
+
+  // Iterate through the words in the text
+  wordsInText.forEach((word) => {
+    // Check if the current word is in the list of words to search
+    if (wordsToSearch.includes(word)) {
+      // Increment the occurrence count for the word
+      wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
+    }
+  });
+
+  return wordOccurrences;
 }
 
 window.onload = () => {
-    const ctx = new AudioContext();
-    const socket = io('https://realtime.streamelements.com', {
-        transports: ['websocket']
-    });
-    //let pong = false;
-    //let interval = false;
-
-    async function textToSpeech(voice_config, text) {
-        // Limit text length
-        text = text.substring(0, voice_config["ttsCharacterLimit"]);
-    
-        console.log("TTS text:", text);
-    
-        let url;
-        let requestOptions;
-        if (voice_config["type"] == "elevenlabs") {
-            requestOptions = {
-                method: "POST",
-                headers: {
-                    "xi-api-key": apiKey,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    text: text,
-                    model_id: voice_config["modelId"],
-                    voice_settings: {
-                        stability: voice_config["stability"],
-                        similarity_boost: voice_config["similarityBoost"],
-                        style: voice_config["style"],
-                        use_speaker_boost: voice_config["useSpeakerBoost"],
-                    },
-                }),
-            };
-            url = `https://api.elevenlabs.io/v1/text-to-speech/${voice_config["voiceId"]}`;
-        } else if (voice_config["type"] == "streamelements") {
-            url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice_config["voiceId"]}&text=${text}`;
-        } else {
-            throw "TTS type not found";
+  var cfgG = undefined;
+  getConfigFromDB(function (error, retrievedConfig) {
+    if (!error && retrievedConfig) cfgG = retrievedConfig;
+    else if (error === null && retrievedConfig === null) {
+      storeConfigToDB(sat_config, function (error) {
+        if (!error) {
+          cfgG = sat_config;
+          console.log("Default cfgG loaded and stored!");
         }
-    
-        // fetch() returns a promise that
-        // resolves once headers have been received
-        var response = await fetch(url, requestOptions);
-    
-        var arrayBuffer = await response.arrayBuffer();
-        var decodedAudio = await ctx.decodeAudioData(arrayBuffer);
-        var gainNode = ctx.createGain();
-        gainNode.connect(ctx.destination);
-        gainNode.gain.value = voice_config["volume"];
-        const audio = decodedAudio;
-        const source = ctx.createBufferSource();
-        source.buffer = audio;
-        source.connect(gainNode);
-        source.start();
-        return new Promise((resolve, reject) => {
-            source.onended = resolve;
-        });
+      });
+    } else console.error(error);
+  });
+  const ctx = new AudioContext();
+  const socket = io("https://realtime.streamelements.com", {
+    transports: ["websocket"],
+  });
+  //let pong = false;
+  //let interval = false;
+
+  async function textToSpeech(voice_config, text) {
+    // Limit text length
+    text = text.substring(0, voice_config["ttsCharacterLimit"]);
+
+    console.log("TTS text:", text);
+
+    let url;
+    let requestOptions;
+    if (voice_config["type"] == "elevenlabs") {
+      requestOptions = {
+        method: "POST",
+        headers: {
+          "xi-api-key": cfgG.apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: text,
+          model_id: voice_config["modelId"],
+          voice_settings: {
+            stability: voice_config["stability"],
+            similarity_boost: voice_config["similarityBoost"],
+            style: voice_config["style"],
+            use_speaker_boost: voice_config["useSpeakerBoost"],
+          },
+        }),
+      };
+      url = `https://api.elevenlabs.io/v1/text-to-speech/${voice_config["voiceId"]}`;
+    } else if (voice_config["type"] == "streamelements") {
+      url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice_config["voiceId"]}&text=${text}`;
+    } else {
+      throw "TTS type not found";
     }
 
-    let notifications = [];
+    // fetch() returns a promise that
+    // resolves once headers have been received
+    var response = await fetch(url, requestOptions);
 
-    (async () => {
-        while (true) {
-            if (notifications.length > 0) {
-                let notif = notifications.pop();
-                console.log("Notification started", notif);
+    var arrayBuffer = await response.arrayBuffer();
+    var decodedAudio = await ctx.decodeAudioData(arrayBuffer);
+    var gainNode = ctx.createGain();
+    gainNode.connect(ctx.destination);
+    gainNode.gain.value = voice_config["volume"];
+    const audio = decodedAudio;
+    const source = ctx.createBufferSource();
+    source.buffer = audio;
+    source.connect(gainNode);
+    source.start();
+    return new Promise((resolve, reject) => {
+      source.onended = resolve;
+    });
+  }
 
-                let voice_config = tts_voices[notif.title];
-                if (voice_config && notif.text != "") {
-                    console.log("Playing TTS");
-                    try {
-                        await textToSpeech(voice_config, notif.text);
-                        console.log("TTS ended");
-                    } catch (e) {
-                        console.log("TTS error:", e);
-                    }
-                }
-                console.log("Notification ended");
-            }
-            await sleep(1000);
+  let notifications = [];
+
+  (async () => {
+    while (true) {
+      if (notifications.length > 0) {
+        let notif = notifications.pop();
+        console.log("Notification started", notif);
+
+        let voice_config = cfgG.tts_voices[notif.voiceId];
+        if (voice_config && notif.text != "") {
+          console.log("Playing TTS");
+          try {
+            await textToSpeech(voice_config, notif.text);
+            console.log("TTS ended");
+          } catch (e) {
+            console.log("TTS error:", e);
+          }
         }
-    })();
+        console.log("Notification ended");
+      }
+      await sleep(1000);
+    }
+  })();
 
-    /* function connect() {
+  /* function connect() {
         //ws = new WebSocket("wss://pubsub-edge.twitch.tv");
         socket = io('https://realtime.streamelements.com', {
             transports: ['websocket']
         });
         //listen();
     } */
-    
-    function disconnect() {
-        /* if (interval) {
+
+  function disconnect() {
+    /* if (interval) {
             clearInterval(interval);
             interval = false;
         } */
-        ws.close();
-    }
+    ws.close();
+  }
 
-    /* function listen() {
+  /* function listen() {
         ws.onmessage = (a) => {
             let o = JSON.parse(a.data);
             switch (o.type) {
@@ -167,12 +179,12 @@ window.onload = () => {
             }
         };
         ws.onopen = () => {
-            if (testTTSOnLoad) {
+            if (cfgG.testTTSOnLoad) {
                 let notif = {
-                    title: testTTS,
+                    title: cfgG.testTTS,
                     price: 5000,
                     user: "test_user",
-                    text: testText,
+                    text: cfgG.testText,
                 };
                 console.log("Notification queued", notif);
                 notifications.push(notif);
@@ -206,84 +218,71 @@ window.onload = () => {
         };
     } */
 
-    // Socket connected
-    socket.on('connect', onConnect);
-    // Socket got disconnected
-    socket.on('disconnect', onDisconnect);
-    // Socket is authenticated
-    socket.on('authenticated', onAuthenticated);
-    socket.on('unauthorized', console.error);
-    socket.on('event:test', (data) => {
-        console.log(data);
-        // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
-    });
-    socket.on('event', (data) => {
-        console.log(data);
-        // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
-        //type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
-        if(data.provider !== "twitch")
-            return;
-        if(data.data.message === undefined)
-            return;
-        let notif = {
-            title: "Babka (AI TTS)",
+  // Socket connected
+  socket.on("connect", onConnect);
+  // Socket got disconnected
+  socket.on("disconnect", onDisconnect);
+  // Socket is authenticated
+  socket.on("authenticated", onAuthenticated);
+  socket.on("unauthorized", console.error);
+  socket.on("event:test", (data) => {
+    console.log(data);
+    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
+  });
+  socket.on("event", (data) => {
+    console.log(data);
+    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
+    //type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
+    if (data.provider !== "twitch") return;
+    if (data.data.message === undefined) return;
+    for (i = 0; i <= Object.keys(cfgG.tts_voices).length; i++) {
+      if (cfgG.tts_voices[i] !== undefined) {
+        if (Object.values(cfgG.tts_voices[i].alert_type.split(",")).find((type) => type === data.type)) {
+          let notif = {
+            title: cfgG.tts_voices[i].name,
+            voiceId: i,
             price: data.data.amount,
             user: data.data.username,
             text: data.data.message,
-        };
-        switch (data.type) {
-            case "tip":
-                notif = {
-                    title: "Jan (Normal TTS)",
-                    price: data.data.amount,
-                    user: data.data.username,
-                    text: data.data.message,
-                };
-                break;
-            case "subscriber":
-                    notif = {
-                        title: "Babka (AI TTS)",
-                        price: data.data.amount,
-                        user: data.data.username,
-                        text: data.data.message,
-                    };
-                break;
+          };
+          console.log("Notification queued", notif);
+          notifications.push(notif);
+          break;
         }
-        console.log("Notification queued", notif);
-        notifications.push(notif);
-    });
-    socket.on('event:update', (data) => {
-        console.log(data);
-        // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
-    });
-    socket.on('event:reset', (data) => {
-        console.log(data);
-        // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
-    });
-
-    function onConnect() {
-        console.log('Successfully connected to the websocket');
-        //socket.emit('authenticate', {method: 'oauth2', token: accessToken});
-        socket.emit('authenticate', {method: 'jwt', token: jwt});
+        continue;
+      } else continue;
     }
+  });
+  socket.on("event:update", (data) => {
+    console.log(data);
+    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
+  });
+  socket.on("event:reset", (data) => {
+    console.log(data);
+    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
+  });
 
-    function onDisconnect() {
-        console.log('Disconnected from websocket');
-        // Reconnect
-        disconnect();
-    }
+  function onConnect() {
+    console.log("Successfully connected to the websocket");
+    //socket.emit('authenticate', {method: 'oauth2', token: cfgG.accessToken});
+    socket.emit("authenticate", { method: "jwt", token: cfgG.jwt });
+  }
 
-    function onAuthenticated(data) {
-        const {
-            channelId
-        } = data;
-        console.log(`Successfully connected to channel ${channelId}`);
-    }
+  function onDisconnect() {
+    console.log("Disconnected from websocket");
+    // Reconnect
+    disconnect();
+  }
 
-    //connect();
-    document.querySelector('body').addEventListener('click', function() {
-        ctx.resume().then(() => {
-          console.log('Playback resumed successfully');
-        });
-      });
+  function onAuthenticated(data) {
+    const { channelId } = data;
+    console.log(`Successfully connected to channel ${channelId}`);
+  }
+
+  //connect();
+  document.querySelector("body").addEventListener("click", function () {
+    ctx.resume().then(() => {
+      console.log("Playback resumed successfully");
+    });
+  });
 };

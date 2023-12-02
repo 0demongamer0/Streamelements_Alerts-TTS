@@ -7,6 +7,7 @@ A simple TTS script for StreamElements Alerts
 - Streamelements TTS Support for default Jan and other voices
 - Volume control per Reward
 - Multiple events support
+- Configuration Panel with option to import/export settings and test your TTS voices.
 - Easy to setup
 
 
@@ -15,8 +16,7 @@ A simple TTS script for StreamElements Alerts
 
   - Download the repository.
   - Extract it somewhere in your file system.
-  - Open the config.js.new with a text editor.
-  - Edit the variables in the script, then rename config.js.new to config.js .
+  - Open the config.html to open Configuration Panel.
   - Double click on the .html file and copy the URL from your browser.
   - Add the URL in your OBS as a Browsersource. (If you can't hear TTS, turn off "Control Audio via OBS".)
 
