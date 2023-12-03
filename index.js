@@ -22,8 +22,8 @@ function searchWords(text, wordsToSearch) {
 }
 
 window.onload = () => {
-  var cfgG = undefined;
-  getConfigFromDB(function (error, retrievedConfig) {
+  var cfgG = sat_config;
+  /* getConfigFromDB(function (error, retrievedConfig) {
     if (!error && retrievedConfig) cfgG = retrievedConfig;
     else if (error === null && retrievedConfig === null) {
       storeConfigToDB(sat_config, function (error) {
@@ -33,7 +33,7 @@ window.onload = () => {
         }
       });
     } else console.error(error);
-  });
+  }); */
   const ctx = new AudioContext();
   const socket = io("https://realtime.streamelements.com", {
     transports: ["websocket"],
@@ -237,17 +237,61 @@ window.onload = () => {
     if (data.data.message === undefined) return;
     for (i = 0; i <= Object.keys(cfgG.tts_voices).length; i++) {
       if (cfgG.tts_voices[i] !== undefined) {
-        if (Object.values(cfgG.tts_voices[i].alert_type.split(",")).find((type) => type === data.type)) {
-          let notif = {
-            title: cfgG.tts_voices[i].name,
-            voiceId: i,
-            price: data.data.amount,
-            user: data.data.username,
-            text: data.data.message,
-          };
-          console.log("Notification queued", notif);
-          notifications.push(notif);
-          break;
+        var regex = /([^:]+):(.+)/gm;
+        const matches = [...data.data.message.matchAll(regex)];
+        if (matches.length !== 0) {
+          if (cfgG.tts_voices[i].name === matches[0][1]) {
+            if (
+              Object.values(cfgG.tts_voices[i].alert_type).find(
+                (type) => type === data.type
+              )
+            ) {
+              let notif = {
+                title: cfgG.tts_voices[i].name,
+                voiceId: i,
+                price: data.data.amount,
+                user: data.data.username,
+                text: matches[0][2],
+              };
+              console.log("Notification queued", notif);
+              notifications.push(notif);
+              break;
+            }
+          } else {
+            if (
+              Object.values(cfgG.tts_voices[i].alert_type).find(
+                (type) => type === data.type
+              )
+            ) {
+              let notif = {
+                title: cfgG.tts_voices[i].name,
+                voiceId: i,
+                price: data.data.amount,
+                user: data.data.username,
+                text: matches[0][2],
+              };
+              console.log("Notification queued", notif);
+              notifications.push(notif);
+              break;
+            }
+          }
+        } else {
+          if (
+            Object.values(cfgG.tts_voices[i].alert_type).find(
+              (type) => type === data.type
+            )
+          ) {
+            let notif = {
+              title: cfgG.tts_voices[i].name,
+              voiceId: i,
+              price: data.data.amount,
+              user: data.data.username,
+              text: data.data.message,
+            };
+            console.log("Notification queued", notif);
+            notifications.push(notif);
+            break;
+          }
         }
         continue;
       } else continue;
