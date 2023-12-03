@@ -226,11 +226,9 @@ window.onload = () => {
   socket.on("authenticated", onAuthenticated);
   socket.on("unauthorized", console.error);
   socket.on("event:test", (data) => {
-    console.log(data);
     // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
   });
   socket.on("event", (data) => {
-    console.log(data);
     // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
     //type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
     if (data.provider !== "twitch") return;
@@ -298,11 +296,9 @@ window.onload = () => {
     }
   });
   socket.on("event:update", (data) => {
-    console.log(data);
     // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
   });
   socket.on("event:reset", (data) => {
-    console.log(data);
     // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-session-update
   });
 
