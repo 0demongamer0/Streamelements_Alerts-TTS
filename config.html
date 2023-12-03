@@ -60,7 +60,6 @@
     ></script>
     <script src="color-modes.js"></script>
     <script src="config.js"></script>
-    <script src="store_db.js"></script>
     <meta name="theme-color" content="#712cf9" />
   </head>
   <body>
@@ -460,7 +459,7 @@
           >
             <!-- <div class="btn-toolbar mb-2 mb-md-0 column-gap-3"> -->
             <div class="grid">
-              <button
+              <!--<button
                 class="btn btn-success btn-sm g-col-6"
                 onclick="applyChanges()"
               >
@@ -471,14 +470,14 @@
                 class="btn btn-primary btn-sm g-col-6"
                 onclick="uploadFile()"
               >
-                Import Configuration to DB
+                Import Configuration
               </button>
 
               <button
                 class="btn btn-info btn-sm g-col-6"
                 onclick="downloadFile()"
               >
-                Export Configuration from DB
+                Export Configuration
               </button>
 
               <button
@@ -487,7 +486,7 @@
                 class="btn btn-sm btn-outline-secondary g-col-6"
               >
                 Load from DB
-              </button>
+              </button>-->
             </div>
             <div class="btn-group">
               <button
@@ -510,7 +509,7 @@
             <!-- </div> -->
           </div>
 
-          <h5 id="template_info">
+          <!--<h5 id="template_info">
             <p class="text-decoration-underline">
               Configuration loaded from template!
             </p>
@@ -519,7 +518,7 @@
               is stored in DB. You can load/store your prevous cfg from/in DB,
               or use template and then store it.
             </p>
-          </h5>
+          </h5>-->
 
           <form>
             <!-- Constants Section -->
@@ -606,12 +605,12 @@
           cfgG,
         });
 
-        storeConfigToDB(cfgG, function (error) {
+        /*storeConfigToDB(cfgG, function (error) {
           if (!error) {
             console.log("Config loaded and stored!");
             appendAlert(`Configuration stored in DB!`, "success");
           }
-        });
+        });*/
       }
 
       // Function to generate input fields for constants
@@ -838,7 +837,7 @@
               "info"
             );
             console.log("File content:", event.target.result);
-            storeConfigToDB(cfgG, function (error) {
+            /*storeConfigToDB(cfgG, function (error) {
               if (!error) {
                 appendAlert(
                   `Configuration file parsed, loaded and stored!`,
@@ -846,7 +845,7 @@
                 );
                 console.log("Configuration file parsed, loaded and stored!");
               }
-            });
+            });*/
           };
           if (files[0]) reader.readAsText(files[0]);
         });
@@ -854,6 +853,18 @@
       };
 
       const downloadFile = () => {
+
+        /*applyChanges();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(storeConfigToJs(cfgG));
+        link.download = "config.js";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        appendAlert(
+          `Configurafion file exported to: ${link.download}`,
+          "info"
+        );
+
         getConfigFromDB(function (error, retrievedConfig) {
           console.log(retrievedConfig);
           if (!error && retrievedConfig) {
@@ -887,7 +898,7 @@
             );
             console.error(error);
           }
-        });
+        });*/
       };
 
       const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
