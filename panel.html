@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamelements Alerts TTS - Voices Panel</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- Custom styles for this template -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
+    />
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet" />
+    <!-- <link
+      rel="apple-touch-icon"
+      href="img/favicons/apple-touch-icon.png"
+      sizes="180x180"
+    /> -->
+    <link
+      rel="icon"
+      href="img/favicons/dice-gradient-96.png"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="img/favicons/dice-gradient-32.png"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="img/favicons/dice-gradient-16.png"
+      sizes="16x16"
+      type="image/png"
+    />
+    <!-- <link rel="manifest" href="img/favicons/manifest.json" />
+    <link
+      rel="mask-icon"
+      href="img/favicons/safari-pinned-tab.svg"
+      color="#712cf9"
+    /> -->
+    <link rel="icon" href="img/favicons/favicon.ico" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="color-modes.js"></script>
+    <script src="config.js"></script>
+    <meta name="theme-color" content="#712cf9" />
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path
+          d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+        />
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path
+          d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
+        />
+        <path
+          d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
+        />
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path
+          d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
+        />
+      </symbol>
+    </svg>
+
+    <div
+      class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"
+    >
+      <button
+        class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+        id="bd-theme"
+        type="button"
+        aria-expanded="false"
+        data-bs-toggle="dropdown"
+        aria-label="Toggle theme (auto)"
+      >
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
+          <use href="#circle-half"></use>
+        </svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+      </button>
+      <ul
+        class="dropdown-menu dropdown-menu-end shadow"
+        aria-labelledby="bd-theme-text"
+      >
+        <li>
+          <button
+            type="button"
+            class="dropdown-item d-flex align-items-center"
+            data-bs-theme-value="light"
+            aria-pressed="false"
+          >
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+              <use href="#sun-fill"></use>
+            </svg>
+            Light
+            <svg class="bi ms-auto d-none" width="1em" height="1em">
+              <use href="#check2"></use>
+            </svg>
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="dropdown-item d-flex align-items-center"
+            data-bs-theme-value="dark"
+            aria-pressed="false"
+          >
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+              <use href="#moon-stars-fill"></use>
+            </svg>
+            Dark
+            <svg class="bi ms-auto d-none" width="1em" height="1em">
+              <use href="#check2"></use>
+            </svg>
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="dropdown-item d-flex align-items-center active"
+            data-bs-theme-value="auto"
+            aria-pressed="true"
+          >
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+              <use href="#circle-half"></use>
+            </svg>
+            Auto
+            <svg class="bi ms-auto d-none" width="1em" height="1em">
+              <use href="#check2"></use>
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="gear-wide-connected" viewBox="0 0 16 16">
+        <path
+          d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"
+        />
+      </symbol>
+      <symbol id="list" viewBox="0 0 16 16">
+        <path
+          fill-rule="evenodd"
+          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+        />
+      </symbol>
+      <symbol id="plus-circle" viewBox="0 0 16 16">
+        <path
+          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+        />
+        <path
+          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+        />
+      </symbol>
+      <symbol id="puzzle" viewBox="0 0 16 16">
+        <path
+          d="M3.112 3.645A1.5 1.5 0 0 1 4.605 2H7a.5.5 0 0 1 .5.5v.382c0 .696-.497 1.182-.872 1.469a.459.459 0 0 0-.115.118.113.113 0 0 0-.012.025L6.5 4.5v.003l.003.01c.004.01.014.028.036.053a.86.86 0 0 0 .27.194C7.09 4.9 7.51 5 8 5c.492 0 .912-.1 1.19-.24a.86.86 0 0 0 .271-.194.213.213 0 0 0 .039-.063v-.009a.112.112 0 0 0-.012-.025.459.459 0 0 0-.115-.118c-.375-.287-.872-.773-.872-1.469V2.5A.5.5 0 0 1 9 2h2.395a1.5 1.5 0 0 1 1.493 1.645L12.645 6.5h.237c.195 0 .42-.147.675-.48.21-.274.528-.52.943-.52.568 0 .947.447 1.154.862C15.877 6.807 16 7.387 16 8s-.123 1.193-.346 1.638c-.207.415-.586.862-1.154.862-.415 0-.733-.246-.943-.52-.255-.333-.48-.48-.675-.48h-.237l.243 2.855A1.5 1.5 0 0 1 11.395 14H9a.5.5 0 0 1-.5-.5v-.382c0-.696.497-1.182.872-1.469a.459.459 0 0 0 .115-.118.113.113 0 0 0 .012-.025L9.5 11.5v-.003a.214.214 0 0 0-.039-.064.859.859 0 0 0-.27-.193C8.91 11.1 8.49 11 8 11c-.491 0-.912.1-1.19.24a.859.859 0 0 0-.271.194.214.214 0 0 0-.039.063v.003l.001.006a.113.113 0 0 0 .012.025c.016.027.05.068.115.118.375.287.872.773.872 1.469v.382a.5.5 0 0 1-.5.5H4.605a1.5 1.5 0 0 1-1.493-1.645L3.356 9.5h-.238c-.195 0-.42.147-.675.48-.21.274-.528.52-.943.52-.568 0-.947-.447-1.154-.862C.123 9.193 0 8.613 0 8s.123-1.193.346-1.638C.553 5.947.932 5.5 1.5 5.5c.415 0 .733.246.943.52.255.333.48.48.675.48h.238l-.244-2.855zM4.605 3a.5.5 0 0 0-.498.55l.001.007.29 3.4A.5.5 0 0 1 3.9 7.5h-.782c-.696 0-1.182-.497-1.469-.872a.459.459 0 0 0-.118-.115.112.112 0 0 0-.025-.012L1.5 6.5h-.003a.213.213 0 0 0-.064.039.86.86 0 0 0-.193.27C1.1 7.09 1 7.51 1 8c0 .491.1.912.24 1.19.07.14.14.225.194.271a.213.213 0 0 0 .063.039H1.5l.006-.001a.112.112 0 0 0 .025-.012.459.459 0 0 0 .118-.115c.287-.375.773-.872 1.469-.872H3.9a.5.5 0 0 1 .498.542l-.29 3.408a.5.5 0 0 0 .497.55h1.878c-.048-.166-.195-.352-.463-.557-.274-.21-.52-.528-.52-.943 0-.568.447-.947.862-1.154C6.807 10.123 7.387 10 8 10s1.193.123 1.638.346c.415.207.862.586.862 1.154 0 .415-.246.733-.52.943-.268.205-.415.39-.463.557h1.878a.5.5 0 0 0 .498-.55l-.001-.007-.29-3.4A.5.5 0 0 1 12.1 8.5h.782c.696 0 1.182.497 1.469.872.05.065.091.099.118.115.013.008.021.01.025.012a.02.02 0 0 0 .006.001h.003a.214.214 0 0 0 .064-.039.86.86 0 0 0 .193-.27c.14-.28.24-.7.24-1.191 0-.492-.1-.912-.24-1.19a.86.86 0 0 0-.194-.271.215.215 0 0 0-.063-.039H14.5l-.006.001a.113.113 0 0 0-.025.012.459.459 0 0 0-.118.115c-.287.375-.773.872-1.469.872H12.1a.5.5 0 0 1-.498-.543l.29-3.407a.5.5 0 0 0-.497-.55H9.517c.048.166.195.352.463.557.274.21.52.528.52.943 0 .568-.447.947-.862 1.154C9.193 5.877 8.613 6 8 6s-1.193-.123-1.638-.346C5.947 5.447 5.5 5.068 5.5 4.5c0-.415.246-.733.52-.943.268-.205.415-.39.463-.557H4.605z"
+        />
+      </symbol>
+      <symbol id="search" viewBox="0 0 16 16">
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+        />
+      </symbol>
+      <symbol id="bi-twitch" viewBox="0 0 16 16">
+        <path
+          d="M3.857 0 1 2.857v10.286h3.429V16l2.857-2.857H9.57L14.714 8V0H3.857zm9.714 7.429-2.285 2.285H9l-2 2v-2H4.429V1.143h9.142z"
+        />
+        <path d="M11.857 3.143h-1.143V6.57h1.143zm-3.143 0H7.571V6.57h1.143z" />
+      </symbol>
+      <symbol id="bi-github" viewBox="0 0 16 16">
+        <path
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8"
+        />
+      </symbol>
+      <symbol id="bi-cast" viewBox="0 0 16 16">
+        <path
+          d="m7.646 9.354-3.792 3.792a.5.5 0 0 0 .353.854h7.586a.5.5 0 0 0 .354-.854L8.354 9.354a.5.5 0 0 0-.708 0z"
+        />
+        <path
+          d="M11.414 11H14.5a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h3.086l-1 1H1.5A1.5 1.5 0 0 1 0 10.5v-7A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v7a1.5 1.5 0 0 1-1.5 1.5h-2.086z"
+        />
+      </symbol>
+    </svg>
+
+    <header
+      class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
+      data-bs-theme="dark"
+    >
+      <a
+        class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
+        href="#"
+        ><img
+          width="64"
+          height="64"
+          src="https://img.icons8.com/nolan/64/1A6DFF/C822FF/dice.png"
+          alt="dice"
+        /><span class="ms-3">Streamelements_Alerts-TTS</span></a
+      >
+
+      <ul class="navbar-nav flex-row d-md-none">
+        <li class="nav-item text-nowrap">
+          <button
+            class="nav-link px-3 text-white"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sidebarMenu"
+            aria-controls="sidebarMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <svg class="bi"><use xlink:href="#list" /></svg>
+          </button>
+        </li>
+      </ul>
+    </header>
+    <div
+      id="liveAlertPlaceholder"
+      class="position-fixed bottom-0 z-3 text-wrap text-break"
+    ></div>
+    <div class="container-fluid">
+      <div class="row">
+        <div
+          class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
+        >
+          <div
+            class="offcanvas-md offcanvas-end bg-body-tertiary"
+            tabindex="-1"
+            id="sidebarMenu"
+            aria-labelledby="sidebarMenuLabel"
+          >
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="sidebarMenuLabel">
+                Streamelements_Alerts-TTS
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                data-bs-target="#sidebarMenu"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
+            >
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2 active"
+                    aria-current="page"
+                    href="#"
+                  >
+                    <svg class="bi">
+                      <use xlink:href="#gear-wide-connected" />
+                    </svg>
+                    Voice TTS
+                  </a>
+                </li>
+              </ul>
+              <h6
+                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
+              >
+                <span>External Links</span>
+                <a
+                  class="link-secondary"
+                  href="#"
+                  aria-label="Add a new report"
+                >
+                </a>
+              </h6>
+              <ul class="nav flex-column mb-auto">
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="https://elevenlabs.io"
+                    target="_blank"
+                  >
+                    <svg class="bi">
+                      <use xlink:href="#list" />
+                    </svg>
+                    ElevenLabs
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="https://streamelements.com"
+                    target="_blank"
+                  >
+                    <svg class="bi">
+                      <use xlink:href="#bi-cast" />
+                    </svg>
+                    StreamElements
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="https://twitch.tv"
+                    target="_blank"
+                  >
+                    <svg class="bi">
+                      <use xlink:href="#bi-twitch" />
+                    </svg>
+                    twitch.tv
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="https://github.com/0demongamer0/Streamelements_Alerts-TTS"
+                    target="_blank"
+                  >
+                    <svg class="bi">
+                      <use xlink:href="#bi-github" />
+                    </svg>
+                    GitHub Repo
+                  </a>
+                </li>
+              </ul>
+
+              <hr class="my-3" />
+
+              <ul class="nav flex-column mb-auto">
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="index.html"
+                    target="_blank"
+                  >
+                    <svg class="bi"><use xlink:href="#puzzle" /></svg>
+                    Overlay Widget Page
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+          </div>
+          <form>
+            <!-- TTS Voices Section -->
+            <h1 class="display-6">TTS Voices</h1>
+            <div
+              id="tts_voicesForm"
+              class="row row-cols-1 row-cols-sm-1 row-cols-lg-2  row-cols-xl-2 row-cols-xxl-3 g-4"
+            ></div>
+          </form>
+        </main>
+      </div>
+    </div>
+    <script>
+      window.onload = async (_) => {
+        generateTTSVoicesFields();
+        document
+          .getElementById("tts_voicesForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+          });
+      };
+      var ctx = new AudioContext();
+      let source;
+      var cfgG = sat_config;
+      // Function to generate input fields for constants
+      function generateConstantInput(element, keyV, key, value) {
+        let divC = document.createElement("div");
+        divC.classList.add("form-floating");
+        divC.classList.add("mb-3");
+
+        const input = document.createElement("input");
+        divC.appendChild(input);
+        input.type = "text";
+        input.classList.add("form-control");
+        input.id = keyV + "_" + key;
+        input.value = value;
+        if (key == "type") {
+          input.setAttribute("disabled", "");
+          input.setAttribute("readonly", "");
+        }
+        if (key == "voiceId") input.placeholder = `Enter ${key}`;
+        else input.placeholder = `Enter ${key}`;
+
+        if (key == "volume") {
+          //<input type="range" class="form-range" min="0" max="5" id="customRange2">
+          input.parentElement.classList.remove("form-floating");
+          input.type = "range";
+          input.classList.remove("form-control");
+          input.classList.add("form-range");
+          input.setAttribute("min", "0");
+          input.setAttribute("max", "1");
+          input.setAttribute("step", "0.05");
+          input.value = value;
+        }
+
+        const label = document.createElement("label");
+        divC.appendChild(label);
+        label.htmlFor = keyV + "_" + key;
+        label.classList.add("form-label");
+        label.textContent = `${key}:`;
+        element.appendChild(divC);
+      }
+
+      function generateTTSVoicesFields(refresh) {
+        if (refresh) {
+          Object.entries(
+            document
+              .getElementById("tts_voicesForm")
+              .querySelectorAll("div.col")
+          ).forEach(([key, value]) => {
+            $(value).fadeOut("slow", function () {
+              value.remove();
+            });
+          });
+        }
+        // Generate input fields for constants
+        Object.entries(cfgG.tts_voices).forEach(([keyV, valueV]) => {
+          const cardcol = document.createElement("div");
+          cardcol.classList.add("col");
+          const card = document.createElement("div");
+          card.classList.add("card");
+          const cardbody = document.createElement("div");
+          cardbody.classList.add("card-body");
+          cardbody.classList.add("p-2");
+          const cardheader = document.createElement("div");
+          cardheader.classList.add("card-header");
+          card.id = `voiceId_${keyV}`;
+          const last =
+            document.getElementById("tts_voicesForm").lastElementChild;
+          document.getElementById("tts_voicesForm").insertBefore(cardcol, last);
+          cardcol.appendChild(card);
+          card.appendChild(cardheader);
+          card.appendChild(cardbody);
+          cardheader.innerText = valueV.name;
+          let divC = document.createElement("div");
+          divC.classList.add("form-floating");
+
+          const textarea_tts = document.createElement("textarea");
+          textarea_tts.type ="textarea";
+          textarea_tts.htmlFor = `tts_${keyV}`;
+          //textarea_tts.classList.add("btn");
+          textarea_tts.classList.add("form-control");
+          textarea_tts.id = `tts_${keyV}`;
+          textarea_tts.placeholder = `Type tts for voice ${valueV.name}:`;
+          textarea_tts.style = "height: 200px;";
+
+          const textarea_ttslabel = document.createElement("label");
+          textarea_ttslabel.htmlFor = `tts_${keyV}`;
+          textarea_ttslabel.classList.add("form-label");
+          textarea_ttslabel.textContent = `Type tts for voice ${valueV.name}:`;
+
+          const button_test = document.createElement("button");
+          button_test.type ="button";
+          button_test.htmlFor = `testVoiceLaunchButton_${keyV}`;
+          button_test.classList.add("btn");
+          button_test.classList.add("btn-outline-info");
+          button_test.classList.add("my-2");
+          button_test.classList.add("me-2");
+          button_test.id = `testVoiceLaunchButton_${keyV}`;
+
+          button_test.onclick = function () {
+            //testVoice(keyV);
+            /*const myModal = new bootstrap.Modal(
+              document.getElementById("testVoiceModal")
+            );*/
+            //document.getElementById("testVoiceLaunchButton").innerText = "Generate Voice ❌";
+            button_test.innerText = "Generate Voice ❌";
+            document
+              .getElementById(`playVoiceTest_${keyV}`)
+              .setAttribute("disabled", "");
+            document
+              .getElementById(`stopVoiceTest_${keyV}`)
+              .setAttribute("disabled", "");
+            //myModal.show();
+            //document.getElementById("testVoiceLaunchButton").onclick =
+              //function () {
+                testVoice(keyV);
+              //};
+          };
+          button_test.textContent = "Generate Voice";
+
+          const button_play = document.createElement("button");
+          button_play.type ="button";
+          button_play.htmlFor = `playVoiceTest_${keyV}`;
+          button_play.classList.add("btn");
+          button_play.classList.add("btn-outline-success");
+          button_play.classList.add("my-2");
+          button_play.classList.add("me-2");
+          button_play.setAttribute("disabled", "");
+          button_play.id = `playVoiceTest_${keyV}`;
+          button_play.textContent = "Play";
+
+          const button_stop = document.createElement("button");
+          button_stop.type ="button";
+          button_stop.htmlFor = `stopVoiceTest_${keyV}`;
+          button_stop.classList.add("btn");
+          button_stop.classList.add("btn-outline-danger");
+          button_stop.classList.add("my-2");
+          button_stop.classList.add("me-2");
+          button_stop.setAttribute("disabled", "");
+          button_stop.id = `stopVoiceTest_${keyV}`;
+          button_stop.textContent = "Stop";   
+
+          divC.appendChild(textarea_tts);
+          divC.appendChild(textarea_ttslabel);
+          cardbody.appendChild(divC);
+          cardbody.appendChild(button_test);
+          cardbody.appendChild(button_play);
+          cardbody.appendChild(button_stop);
+        });
+        $("div.col").fadeIn(1000);
+      }
+
+      function addVoice() {
+        let num = Object.keys(cfgG.tts_voices).length + 1;
+        let voice =
+          tts_voices_templates[$("#addVoiceType").find(":selected").val()];
+        for (i = 0; i < Object.keys(cfgG.tts_voices).length + 1; i++)
+          if (cfgG.tts_voices[i] === undefined) {
+            let temp = { [i]: voice };
+            temp[i].name = `New Voice (${$("#addVoiceType")
+              .find(":selected")
+              .text()})`;
+            Object.assign(cfgG.tts_voices, temp);
+            appendAlert(`Added voice config: ${temp[i].name}`, "success");
+            break;
+          }
+        generateTTSVoicesFields(true);
+        applyChanges();
+        //loadFromDB(false);
+      }
+
+      function delVoice(id) {
+        $(`#voiceId_${id}`).fadeOut(1000);
+        //document.getElementById(`voiceId_${id}`).remove();
+        console.log("Deleted: " + cfgG.tts_voices[id]);
+        appendAlert(
+          `Removed voice config: ${cfgG.tts_voices[id].name}`,
+          "info"
+        );
+        delete cfgG.tts_voices[id];
+        generateTTSVoicesFields(true);
+        applyChanges();
+        //loadFromDB(false);
+      }
+
+      function loadFromDB(refresh) {
+        getConfigFromDB(function (error, retrievedConfig) {
+          console.log(retrievedConfig);
+          if (!error && retrievedConfig) {
+            cfgG = retrievedConfig;
+            generateTTSVoicesFields(refresh);
+            //document.getElementById("template_info").hidden = true;
+            //$("#template_info").fadeOut();
+            $("#template_info").slideUp("slow");
+            appendAlert(`Configuration loaded from DB.`, "success");
+          } else if (error === null && retrievedConfig === null) {
+            storeConfigToDB(cfgG, function (error) {
+              if (!error) {
+                appendAlert(
+                  `Can't load configuration from DB.\nDefault config loaded and stored!\n(${error})`,
+                  "danger"
+                );
+                console.log("Default config loaded and stored!");
+              }
+            });
+          } else {
+            appendAlert(
+              `Can't load configuration from DB.\n(${error})`,
+              "danger"
+            );
+            console.error(error);
+          }
+        });
+      }
+
+      const uploadFile = () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.addEventListener("change", () => {
+          var files = input.files;
+          if (files.length === 0) {
+            appendAlert("No file is selected!", "danger");
+            console.log("No file is selected");
+            return;
+          }
+          var reader = new FileReader();
+          reader.onload = function (event) {
+            let import_temp = null;
+            try {
+              import_temp = JSON.parse(event.target.result);
+            } catch (e) {
+              appendAlert(
+                `Can't import configuration to DB. Bad file!`,
+                "danger"
+              );
+              console.error(
+                "Can't import configuration to DB. Bad file!",
+                event.target.result
+              );
+              return;
+            }
+            cfgG = import_temp;
+            appendAlert(
+              `File content: <samp>${event.target.result}<samp>`,
+              "info"
+            );
+            console.log("File content:", event.target.result);
+            /*storeConfigToDB(cfgG, function (error) {
+              if (!error) {
+                appendAlert(
+                  `Configuration file parsed, loaded and stored!`,
+                  "success"
+                );
+                console.log("Configuration file parsed, loaded and stored!");
+              }
+            });*/
+          };
+          if (files[0]) reader.readAsText(files[0]);
+        });
+        input.click();
+      };
+
+      const downloadFile = () => {
+
+        /*applyChanges();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(storeConfigToJs(cfgG));
+        link.download = "config.js";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        appendAlert(
+          `Configurafion file exported to: ${link.download}`,
+          "info"
+        );
+
+        getConfigFromDB(function (error, retrievedConfig) {
+          console.log(retrievedConfig);
+          if (!error && retrievedConfig) {
+            cfgG = retrievedConfig;
+            const file = new Blob([JSON.stringify(cfgG)], {
+              type: "text/json",
+            });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(file);
+            link.download = "config.json";
+            link.click();
+            URL.revokeObjectURL(link.href);
+            appendAlert(
+              `Configurafion file exported to: ${link.download}`,
+              "info"
+            );
+          } else if (error === null && retrievedConfig === null) {
+            storeConfigToDB(cfgG, function (error) {
+              if (!error) {
+                appendAlert(
+                  `Can't export configuration from DB.\nDefault config loaded and stored!\n(${error})`,
+                  "danger"
+                );
+                console.log("Default config loaded and stored!");
+              }
+            });
+          } else {
+            appendAlert(
+              `Can't export configuration from DB.\n(${error})`,
+              "danger"
+            );
+            console.error(error);
+          }
+        });*/
+      };
+
+      const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+      
+      const appendAlert = (message, type) => {
+        const alert = document.createElement("div");
+        alert.classList.add("alert");
+        alert.classList.add(`alert-${type}`);
+        alert.classList.add("alert-dismissible");
+        alert.role = "alert";
+        const alertmsg = document.createElement("div");
+        //alertmsg.classList.add("bg-secondary-subtle");
+        alertmsg.innerHTML = message;
+        const alertclose = document.createElement("button");
+        alertclose.type = "button";
+        alertclose.classList.add("btn-close");
+        alertclose.ariaLabel = "Close";
+        alertclose.setAttribute("data-bs-dismiss", "alert");
+        alert.appendChild(alertmsg);
+        alert.appendChild(alertclose);
+        /*wrapper.innerHTML = [
+          `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+          `   <div>${message}</div>`,
+          '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+          "</div>",
+        ].join("");*/
+
+        alertPlaceholder.append(alert);
+      };
+
+      function testVoice(id) {
+        testTextToSpeech(id,
+          cfgG.tts_voices[id],
+          document.getElementById(`tts_${id}`).value
+        );
+      }
+      //const testVoiceModal = document.getElementById("testVoiceModal");
+      //const testVoiceText = document.getElementById("exampleVoiceTestTextarea");
+
+      /*testVoiceModal.addEventListener("shown.bs.modal", () => {
+        testVoiceText.focus();
+      });*/
+      async function testTextToSpeech(id, voice_config, text) {
+        // Limit text length
+        text = text.substring(0, voice_config["ttsCharacterLimit"]);
+
+        console.log("TTS text:", text);
+
+        let url;
+        let requestOptions;
+        if (voice_config["type"] == "elevenlabs") {
+          requestOptions = {
+            method: "POST",
+            headers: {
+              "xi-api-key": cfgG.apiKey,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: text,
+              model_id: voice_config["modelId"],
+              voice_settings: {
+                stability: voice_config["stability"],
+                similarity_boost: voice_config["similarityBoost"],
+                style: voice_config["style"],
+                use_speaker_boost: voice_config["useSpeakerBoost"],
+              },
+            }),
+          };
+          url = `https://api.elevenlabs.io/v1/text-to-speech/${voice_config["voiceId"]}`;
+        } else if (voice_config["type"] == "streamelements") {
+          url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice_config["voiceId"]}&text=${text}`;
+        } else {
+          throw "TTS type not found";
+        }
+
+        fetch(url, requestOptions)
+          .then((response) => response.arrayBuffer())
+          .then((arrayBuffer) => ctx.decodeAudioData(arrayBuffer))
+          .then((decodedAudio) => {
+            document.getElementById(`testVoiceLaunchButton_${id}`).innerText =
+              "Generate Voice ✔";
+            document
+              .getElementById(`playVoiceTest_${id}`)
+              .removeAttribute("disabled");
+            document
+              .getElementById(`stopVoiceTest_${id}`)
+              .removeAttribute("disabled");
+            document.getElementById(`playVoiceTest_${id}`).onclick = () => {
+              var gainNode = ctx.createGain();
+              gainNode.connect(ctx.destination);
+              gainNode.gain.value = voice_config["volume"];             
+              source = ctx.createBufferSource();
+              source.buffer = decodedAudio;
+              source.connect(gainNode);
+              source.start(ctx.currentTime);
+              if (ctx.state === "suspended") {
+                ctx.resume();
+              }
+              return new Promise((resolve, reject) => {
+                source.onended = resolve;
+              });
+            };
+            document.getElementById(`stopVoiceTest_${id}`).onclick = () => {
+              ctx.suspend();
+              source.stop();
+            };
+          });
+      }
+    </script>
+  </body>
+</html>
