@@ -2,42 +2,15 @@ function sleep(miliseconds) {
   return new Promise((res) => setTimeout(res, miliseconds));
 }
 
-function searchWords(text, wordsToSearch) {
-  // Split the text into an array of words
-  const wordsInText = text.split(/\s+/);
-
-  // Create an object to store the occurrences of each word
-  const wordOccurrences = {};
-
-  // Iterate through the words in the text
-  wordsInText.forEach((word) => {
-    // Check if the current word is in the list of words to search
-    if (wordsToSearch.includes(word)) {
-      // Increment the occurrence count for the word
-      wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
-    }
-  });
-
-  return wordOccurrences;
-}
+var socket = undefined;
 
 window.onload = () => {
   var cfgG = sat_config;
-  /* getConfigFromDB(function (error, retrievedConfig) {
-    if (!error && retrievedConfig) cfgG = retrievedConfig;
-    else if (error === null && retrievedConfig === null) {
-      storeConfigToDB(sat_config, function (error) {
-        if (!error) {
-          cfgG = sat_config;
-          console.log("Default cfgG loaded and stored!");
-        }
-      });
-    } else console.error(error);
-  }); */
   const ctx = new AudioContext();
-  const socket = io("https://realtime.streamelements.com", {
+  socket = io("https://realtime.streamelements.com", {
     transports: ["websocket"],
   });
+
   //let pong = false;
   //let interval = false;
 
@@ -124,14 +97,6 @@ window.onload = () => {
         });
         //listen();
     } */
-
-  function disconnect() {
-    /* if (interval) {
-            clearInterval(interval);
-            interval = false;
-        } */
-    ws.close();
-  }
 
   /* function listen() {
         ws.onmessage = (a) => {
@@ -233,47 +198,13 @@ window.onload = () => {
     //type: ["merch", "tip", "subscriber", "host", "raid", "cheer"] // twitch events
     if (data.provider !== "twitch") return;
     if (data.data.message === undefined) return;
-    for (i = 0; i <= Object.keys(cfgG.tts_voices).length; i++) {
-      if (cfgG.tts_voices[i] !== undefined) {
-        var regex = /([^:]+):(.+)/gm;
-        const matches = [...data.data.message.matchAll(regex)];
-        if (matches.length !== 0) {
-          if (cfgG.tts_voices[i].name === matches[0][1]) {
-            if (
-              Object.values(cfgG.tts_voices[i].alert_type).find(
-                (type) => type === data.type
-              )
-            ) {
-              let notif = {
-                title: cfgG.tts_voices[i].name,
-                voiceId: i,
-                price: data.data.amount,
-                user: data.data.username,
-                text: matches[0][2],
-              };
-              console.log("Notification queued", notif);
-              notifications.push(notif);
-              break;
-            }
-          } else {
-            if (
-              Object.values(cfgG.tts_voices[i].alert_type).find(
-                (type) => type === data.type
-              )
-            ) {
-              let notif = {
-                title: cfgG.tts_voices[i].name,
-                voiceId: i,
-                price: data.data.amount,
-                user: data.data.username,
-                text: matches[0][2],
-              };
-              console.log("Notification queued", notif);
-              notifications.push(notif);
-              break;
-            }
-          }
-        } else {
+    for (i = 0; i <= Object.keys(cfgG.tts_voices).length; i++){
+      console.log(i, cfgG.tts_voices[i].name);
+      if (cfgG.tts_voices[i] === undefined) continue;
+      var regex = /([^:]+):(.+)/gm;
+      const matches = [...data.data.message.matchAll(regex)];
+      if (matches.length !== 0) {
+        if (cfgG.tts_voices[i].name === matches[0][1]) {
           if (
             Object.values(cfgG.tts_voices[i].alert_type).find(
               (type) => type === data.type
@@ -284,15 +215,31 @@ window.onload = () => {
               voiceId: i,
               price: data.data.amount,
               user: data.data.username,
-              text: data.data.message,
+              text: matches[0][2],
             };
-            console.log("Notification queued", notif);
+            console.log(`Notification in a queue for ${data.type} using the detected voice name from message: ${matches[0][1]}.`, notif);
             notifications.push(notif);
             break;
           }
         }
-        continue;
-      } else continue;
+      } else {
+        if (
+          Object.values(cfgG.tts_voices[i].alert_type).find(
+            (type) => type === data.type
+          )
+        ) {
+          let notif = {
+            title: cfgG.tts_voices[i].name,
+            voiceId: i,
+            price: data.data.amount,
+            user: data.data.username,
+            text: data.data.message,
+          };
+          console.log(`Notification in a queue for ${data.type} using the first found configured voice for it.`, notif);
+          notifications.push(notif);
+          break;
+        }
+      }
     }
   });
   socket.on("event:update", (data) => {
@@ -304,22 +251,21 @@ window.onload = () => {
 
   function onConnect() {
     console.log("Successfully connected to the websocket");
-    //socket.emit('authenticate', {method: 'oauth2', token: cfgG.accessToken});
-    socket.emit("authenticate", { method: "jwt", token: cfgG.jwt });
+    if(cfgG.jwt.length !== 0)
+      socket.emit("authenticate", { method: "jwt", token: cfgG.jwt });
+    else if(cfgG.accessToken.length !== 0)
+      socket.emit('authenticate', {method: 'oauth2', token: cfgG.accessToken});
   }
 
   function onDisconnect() {
     console.log("Disconnected from websocket");
     // Reconnect
-    disconnect();
   }
 
   function onAuthenticated(data) {
     const { channelId } = data;
     console.log(`Successfully connected to channel ${channelId}`);
   }
-
-  //connect();
   document.querySelector("body").addEventListener("click", function () {
     ctx.resume().then(() => {
       console.log("Playback resumed successfully");
