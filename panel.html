@@ -404,14 +404,14 @@
         input.classList.add("form-control");
         input.id = keyV + "_" + key;
         input.value = value;
-        if (key == "type") {
+        if (key === "type") {
           input.setAttribute("disabled", "");
           input.setAttribute("readonly", "");
         }
-        if (key == "voiceId") input.placeholder = `Enter ${key}`;
+        if (key === "voiceId") input.placeholder = `Enter ${key}`;
         else input.placeholder = `Enter ${key}`;
 
-        if (key == "volume") {
+        if (key === "volume") {
           //<input type="range" class="form-range" min="0" max="5" id="customRange2">
           input.parentElement.classList.remove("form-floating");
           input.type = "range";
@@ -766,7 +766,7 @@
               },
             }),
           };
-          url = `https://api.elevenlabs.io/v1/text-to-speech/${voice_config["voiceId"]}`;
+          url = `https://api.elevenlabs.io/v1/text-to-speech/${voice_config["voiceId"]}/stream`;
         } else if (voice_config["type"] == "streamelements") {
           url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice_config["voiceId"]}&text=${text}`;
         } else {

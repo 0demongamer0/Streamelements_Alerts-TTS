@@ -2,3 +2,4 @@ config.js
 store_db.js
 store_js.js
 store_local.js
+/t.json

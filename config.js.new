@@ -5,17 +5,40 @@ const sat_config = {
   apiKey: "", // your elevenlabs api key
   ///////////////////////////////////////////////////
 
-  // TWITCH PARAMETERS
-  // const channelId = ""; // your twitch channel id
-
   /////////////////////////
   // Streamelements Configs
+    streamelements: {
   // AccessToken is grabbed from OAuth2 authentication of the account.
-  accessToken: "",
+    accessToken: "",
   // JWT is available here: https://streamelements.com/dashboard/account/channels
-  jwt: "",
+    jwt: "",
+  },
   ////////////////////////
 
+  /////////////////////////
+  // Tipply Configs
+  // Important for "Tipply" voice config
+  // minimal_amount - 1 = 1grosz , 1000 = 10zł itd.
+  // only one, for now :) - alert_type: ["alert"]
+  //
+    tipply: {
+      overlay_url: "https://widgets.tipply.pl/TIP_ALERT/19efc3fe-6fe3-481f-874c-6bc414cb900d/",
+      minimal_amount: 500,
+      // DO NOT TOUCH BEFORE THIS LINE //
+      NODE_ENV: "production",
+      PUBLIC_URL: "",
+      REACT_APP_BUILD_HASH: "59ce329c",
+      REACT_APP_PROXY_URL: "https://proxy.tipply.pl",
+      REACT_APP_SOCKET_URL: "https://ws.tipply.pl",
+      REACT_APP_API_URL: "https://tipply.pl",
+      REACT_APP_MEDIA_URL: "https://dxokx05hbd6dq.cloudfront.net",
+      REACT_APP_APP_URL: "https://app.tipply.pl",
+      REACT_APP_WIDGETS_URL: "https://widgets.tipply.pl",
+      REACT_APP_ALERT_SOCKET_URL: "https://alert-ws.tipply.pl",
+      REACT_APP_SENTRY_DSN: "https://c03e8614688945ab823b6bba8c336b0c@o495083.ingest.sentry.io/4504299099979776"
+    },
+
+  ////////////////////////
   // Voices configs
   ////////////////////////
   tts_voices: {
