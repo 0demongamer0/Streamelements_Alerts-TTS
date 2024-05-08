@@ -22,8 +22,8 @@ const sat_config = {
   // only one, for now :) - alert_type: ["alert"]
   //
     tipply: {
-      overlay_url: "https://widgets.tipply.pl/TIP_ALERT/19efc3fe-6fe3-481f-874c-6bc414cb900d/",
-      minimal_amount: 500,
+      overlay_url: "",
+      minimal_amount: 0,
       // DO NOT TOUCH BEFORE THIS LINE //
       NODE_ENV: "production",
       PUBLIC_URL: "",
